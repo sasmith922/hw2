@@ -9,6 +9,7 @@
 #include "db_parser.h"
 #include "product_parser.h"
 #include "util.h"
+#include "mydatastore.h"
 
 using namespace std;
 struct ProdNameSorter {
@@ -29,7 +30,7 @@ int main(int argc, char* argv[])
      * Declare your derived DataStore object here replacing
      *  DataStore type to your derived type
      ****************/
-    DataStore ds;
+    MyDataStore ds;
 
 
 
@@ -101,10 +102,56 @@ int main(int argc, char* argv[])
             }
 	    /* Add support for other commands here */
 
+            else if(cmd == "ADD") // adds username to users_
+            {
+                string username;
+                int index;
 
+                if(ss >> username >> index) // checks if stringstream takes in username and index
+                {
+                    std::cout << "Entered ss condition!" << std::endl;
+                    
+                    if(index < 1 || index > (int)hits.size()) // checks range of index
+                    {
+                        cout << "Invalid request" << endl;
+                    }
+                    else
+                    {
+                        ds.addToCart(username, hits[index-1]); // adds specified product to usernames cart
+                    }
+                }
+                else
+                {
+                    cout << "Invalid request" << endl;
+                }
+            }
+            else if(cmd == "VIEWCART")
+            {
+                string username;
+                if(ss >> username) // checks if stringstram takes in username
+                {
+                    ds.viewCart(username);
+                }
+                else
+                {
+                    cout << "Invalid request" << endl;
+                }
+            }
+            else if(cmd == "BUYCART")
+            {
 
-
-            else {
+                string username;
+                if(ss >> username) // checks if stringstram takes in username
+                {
+                    ds.buyCart(username);
+                }
+                else
+                {
+                    cout << "Invalid request" << endl;
+                }
+            }
+            else 
+            {
                 cout << "Unknown command" << endl;
             }
         }

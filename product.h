@@ -46,4 +46,5 @@ protected:
     std::string category_;
 
 };
+
 #endif
